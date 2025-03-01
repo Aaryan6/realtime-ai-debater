@@ -14,6 +14,7 @@ interface DebaterProps {
   onProcessingChange?: (isProcessing: boolean) => void;
   onAiTypingChange?: (isTyping: boolean) => void;
   onAudioPlayingChange?: (isPlaying: boolean) => void;
+  instructions?: string;
 }
 
 export default function Debater({
@@ -23,6 +24,7 @@ export default function Debater({
   onProcessingChange,
   onAiTypingChange,
   onAudioPlayingChange,
+  instructions = "",
 }: DebaterProps) {
   const [voice, setVoice] = useState("alloy");
   const [isProcessing, setIsProcessing] = useState(false);
@@ -44,7 +46,7 @@ export default function Debater({
     currentVolume,
     sendTextMessage,
     isAudioPlaying,
-  } = useWebRTCAudioSession(voice);
+  } = useWebRTCAudioSession(voice, undefined, instructions);
 
   // When the conversation updates, process the messages
   useEffect(() => {

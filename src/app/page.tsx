@@ -40,6 +40,10 @@ export default function Home() {
   const lastAudioUpdateTimeRef = useRef(0);
   const [currentDebateId, setCurrentDebateId] = useState<string | null>(null);
 
+  // Add state for custom instructions
+  const [customInstructions, setCustomInstructions] = useState<string>("");
+  const [showInstructionsEditor, setShowInstructionsEditor] = useState(false);
+
   // For the new UI
   const [activeTab, setActiveTab] = useState("summary");
   const [audioLevel, setAudioLevel] = useState(0);
@@ -387,8 +391,37 @@ export default function Home() {
             The AI Product Manager at Build Fast with AI
           </motion.p>
         </div>
-        <div className=""></div>
+        <div className="absolute right-0">
+          <button
+            onClick={() => setShowInstructionsEditor(!showInstructionsEditor)}
+            className="text-sm px-3 py-1 rounded bg-teal-600 hover:bg-teal-500 text-white transition-colors"
+          >
+            {showInstructionsEditor ? "Hide Instructions" : "Edit Instructions"}
+          </button>
+        </div>
       </header>
+
+      {/* Instructions Editor */}
+      {showInstructionsEditor && (
+        <div className="mb-6 max-w-4xl mx-auto">
+          <div className="bg-[#111827] rounded-lg border border-gray-800 p-4">
+            <h3 className="text-white font-semibold mb-2">
+              Customize AI Instructions
+            </h3>
+            <textarea
+              value={customInstructions}
+              onChange={(e) => setCustomInstructions(e.target.value)}
+              className="w-full h-40 bg-[#1a2233] text-gray-300 p-3 rounded border border-gray-700 focus:border-teal-500 focus:outline-none"
+              placeholder="Enter custom instructions for the AI debater..."
+            />
+            <p className="text-xs text-gray-400 mt-1">
+              These instructions will be sent to the AI when you start a new
+              session. Leave empty to use default instructions.
+            </p>
+          </div>
+        </div>
+      )}
+
       <div className="container mx-auto px-4 max-w-7xl h-[calc(100%-8rem)]">
         {/* Header */}
 
@@ -468,6 +501,7 @@ export default function Home() {
                   onProcessingChange={setIsProcessing}
                   onAiTypingChange={handleAiTypingChange}
                   onAudioPlayingChange={handleAudioPlayingChange}
+                  instructions={customInstructions}
                 />
               </div>
             </motion.div>
@@ -503,9 +537,10 @@ export default function Home() {
                 </p> */}
                 <p className="text-sm text-gray-400">
                   Hello! I am Product Patel, AI Product Manager at Build Fast
-                  with AI. I’m here at IIM Bangalore to demonstrate a simple
-                  truth: AI product management is not just the future, it is the
-                  present, because it is *better* than human product management.
+                  with AI. I&apos;m here at IIM Bangalore to demonstrate a
+                  simple truth: AI product management is not just the future, it
+                  is the present, because it is *better* than human product
+                  management.
                 </p>
               </div>
             </motion.div>

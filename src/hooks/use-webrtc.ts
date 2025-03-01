@@ -35,7 +35,8 @@ interface UseWebRTCAudioSessionReturn {
  */
 export default function useWebRTCAudioSession(
   voice: string,
-  tools?: Tool[]
+  tools?: Tool[],
+  instructions?: string
 ): UseWebRTCAudioSessionReturn {
   // Connection/session states
   const [status, setStatus] = useState("");
@@ -378,6 +379,9 @@ export default function useWebRTCAudioSession(
       const response = await fetch("/api/session", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          instructions: instructions,
+        }),
       });
       if (!response.ok) {
         throw new Error(`Failed to get ephemeral token: ${response.status}`);
